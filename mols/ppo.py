@@ -8,7 +8,7 @@ import gzip
 import os
 import os.path as osp
 import pickle
-import psutil
+#import psutil
 import pdb
 import subprocess
 import sys
@@ -40,7 +40,7 @@ parser.add_argument("--opt_beta2", default=0.99, type=float)
 parser.add_argument("--nemb", default=256, help="#hidden", type=int)
 parser.add_argument("--min_blocks", default=2, type=int)
 parser.add_argument("--max_blocks", default=8, type=int)
-parser.add_argument("--num_iterations", default=4000, type=int)
+parser.add_argument("--num_iterations", default=1, type=int)
 parser.add_argument("--num_conv_steps", default=6, type=int)
 parser.add_argument("--log_reg_c", default=1e-2, type=float)
 parser.add_argument("--reward_exp", default=4, type=float)
@@ -181,7 +181,7 @@ _stop = [None]
 
 def train_model_with_proxy(args, model, proxy, dataset, num_steps=None, do_save=True):
     debug_no_threads = False
-    device = torch.device('cuda')
+    device = torch.device('cpu')
 
     if num_steps is None:
         num_steps = args.num_iterations + 1
@@ -302,7 +302,7 @@ def train_model_with_proxy(args, model, proxy, dataset, num_steps=None, do_save=
 
 def main(args):
     bpath = "data/blocks_PDB_105.json"
-    device = torch.device('cuda')
+    device = torch.device('cpu')
 
     if args.floatX == 'float32':
         args.floatX = torch.float
